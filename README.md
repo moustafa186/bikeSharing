@@ -42,8 +42,9 @@ touch .gitignore
 cp -R tutorialtoken/ bikesharing
 ```
 
-5. install zeppelin-solidity
+5. install dependencies
 ```
+npm install truffle-hdwallet-provider
 npm install zeppelin-solidity
 ```
 
