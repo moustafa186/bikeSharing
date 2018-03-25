@@ -1,5 +1,5 @@
 # Bike Sharing Platform
-Smart contract for bike sharing platform.
+DApp for bike sharing platform.
 
 
 ## The smart contract has the following functions and events:
