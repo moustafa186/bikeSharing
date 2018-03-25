@@ -2,7 +2,7 @@
 Smart contract for bike sharing platform.
 
 
-##The smart contract has the following functions and events:
+## The smart contract has the following functions and events:
 
 ### functions
 1. rentBike
