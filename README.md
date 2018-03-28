@@ -5,7 +5,7 @@ DApp for bike sharing platform.
 ## The smart contract has the following functions and events:
 
 ### functions
-1. rentBike
+1. reserve
 2. endRent
 
 
