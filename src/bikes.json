@@ -1,0 +1,74 @@
+[
+  {
+    "id": 0,
+    "name": "Frieda",
+    "picture": "images/bike1.jpeg",
+    "model": 22,
+    "size": "Scottish Terrier",
+    "rate": 1000
+  },
+  {
+    "id": 1,
+    "name": "Gina",
+    "picture": "images/bike2.jpeg",
+    "model": 23,
+    "size": "Scottish Terrier",
+    "rate": 1200
+  },
+  {
+    "id": 2,
+    "name": "Collins",
+    "picture": "images/bike3.jpeg",
+    "model": 24,
+    "size": "French Bulldog",
+    "rate": 1400
+  },
+  {
+    "id": 3,
+    "name": "Melissa",
+    "picture": "images/bike4.jpeg",
+    "model": 25,
+    "size": "Boxer",
+    "rate": 1500
+  },
+  {
+    "id": 4,
+    "name": "Jeanine",
+    "picture": "images/bike5.jpeg",
+    "model": 28,
+    "size": "French Bulldog",
+    "rate": 2000
+  },
+  {
+    "id": 5,
+    "name": "Elvia",
+    "picture": "images/bike6.jpeg",
+    "model": 20,
+    "size": "French Bulldog",
+    "rate": 900
+  },
+  {
+    "id": 6,
+    "name": "Latisha",
+    "picture": "images/bike7.jpeg",
+    "model": 30,
+    "size": "Golden Retriever",
+    "rate": 2200
+  },
+  {
+    "id": 7,
+    "name": "Coleman",
+    "picture": "images/bike8.jpeg",
+    "model": 33,
+    "size": "Golden Retriever",
+    "rate": 2500
+  },
+  {
+    "id": 8,
+    "name": "Nichole",
+    "picture": "images/bike9.jpeg",
+    "model": 22,
+    "size": "French Bulldog",
+    "rate": 1300
+  }
+]

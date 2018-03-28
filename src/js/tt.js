@@ -21,13 +21,13 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('TutorialToken.json', function(data) {
+    $.getJSON('BikeShareContract.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract.
-      var TutorialTokenArtifact = data;
-      App.contracts.TutorialToken = TruffleContract(TutorialTokenArtifact);
+      var BikeShareArtifact = data;
+      App.contracts.BikeShare = TruffleContract(BikeShareArtifact);
 
       // Set the provider for our contract.
-      App.contracts.TutorialToken.setProvider(App.web3Provider);
+      App.contracts.BikeShare.setProvider(App.web3Provider);
 
       // Use our contract to retieve and mark the adopted pets.
       return App.getBalances();
@@ -43,12 +43,12 @@ App = {
   handleTransfer: function(event) {
     event.preventDefault();
 
-    var amount = parseInt($('#TTTransferAmount').val());
-    var toAddress = $('#TTTransferAddress').val();
+    var bikeModel = parseInt($('#BikeModel').val());
+    var ownerName = $('#OwnerName').val();
 
-    console.log('Transfer ' + amount + ' TT to ' + toAddress);
+    console.log('Transfer ' + bikeModel + ' TT to ' + ownerName);
 
-    var tutorialTokenInstance;
+    var bikeShareInstance;
 
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
@@ -57,10 +57,10 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.TutorialToken.deployed().then(function(instance) {
-        tutorialTokenInstance = instance;
+      App.contracts.BikeShare.deployed().then(function(instance) {
+        bikeShareInstance = instance;
 
-        return tutorialTokenInstance.transfer(toAddress, amount, {from: account});
+        return bikeShareInstance.transfer(ownerName, bikeModel, {from: account});
       }).then(function(result) {
         alert('Transfer Successful!');
         return App.getBalances();
@@ -73,7 +73,7 @@ App = {
   getBalances: function() {
     console.log('Getting balances...');
 
-    var tutorialTokenInstance;
+    var bikeShareInstance;
 
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
@@ -82,14 +82,14 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.TutorialToken.deployed().then(function(instance) {
-        tutorialTokenInstance = instance;
-
-        return tutorialTokenInstance.balanceOf(account);
+      App.contracts.BikeShare.deployed().then(function(instance) {
+        bikeShareInstance = instance;
+        return web3.eth.getBalance(account);
+        // return bikeShareInstance.balanceOf(account);
       }).then(function(result) {
         balance = result.c[0];
 
-        $('#TTBalance').text(balance);
+        $('#ETHBalance').text(balance);
       }).catch(function(err) {
         console.log(err.message);
       });

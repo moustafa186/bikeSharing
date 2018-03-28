@@ -4,17 +4,17 @@ App = {
 
   init: function() {
     // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
+    $.getJSON('../bikes.json', function(data) {
+      var petsRow = $('#bikesRow');
+      var petTemplate = $('#bikeTemplate');
 
       for (i = 0; i < data.length; i ++) {
         petTemplate.find('.panel-title').text(data[i].name);
         petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        petTemplate.find('.bike-model').text(data[i].model);
+        petTemplate.find('.bike-size').text(data[i].size);
+        petTemplate.find('.rent-rate').text(data[i].rate);
+        petTemplate.find('.btn-rent').attr('data-id', data[i].id);
 
         petsRow.append(petTemplate.html());
       }
@@ -37,32 +37,32 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('Adoption.json', function(data) {
+    $.getJSON('BikeShareContract.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
-      var AdoptionArtifact = data;
-      App.contracts.Adoption = TruffleContract(AdoptionArtifact);
+      var BikeShareArtifact = data;
+      App.contracts.BikeShare = TruffleContract(BikeShareArtifact);
     
       // Set the provider for our contract
-      App.contracts.Adoption.setProvider(App.web3Provider);
+      App.contracts.BikeShare.setProvider(App.web3Provider);
     
       // Use our contract to retrieve and mark the adopted pets
-      return App.markAdopted();
+      return App.markRented();
     });
 
     return App.bindEvents();
   },
 
   bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
+    $(document).on('click', '.btn-rent', App.handleRent);
   },
 
-  markAdopted: function(adopters, account) {
-    var adoptionInstance;
+  markRented: function(adopters, account) {
+    var bikeShareInstance;
 
-    App.contracts.Adoption.deployed().then(function(instance) {
-      adoptionInstance = instance;
+    App.contracts.BikeShare.deployed().then(function(instance) {
+      bikeShareInstance = instance;
 
-      return adoptionInstance.getAdopters.call();
+      return bikeShareInstance.getAdopters.call();
     }).then(function(adopters) {
       for (i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
@@ -74,12 +74,12 @@ App = {
     });
   },
 
-  handleAdopt: function(event) {
+  handleRent: function(event) {
     event.preventDefault();
 
-    var petId = parseInt($(event.target).data('id'));
+    var bikeId = parseInt($(event.target).data('id'));
 
-    var adoptionInstance;
+    var bikeShareInstance;
 
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
@@ -88,13 +88,13 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.Adoption.deployed().then(function(instance) {
-        adoptionInstance = instance;
+      App.contracts.BikeShare.deployed().then(function(instance) {
+        bikeShareInstance = instance;
 
         // Execute adopt as a transaction by sending account
-        return adoptionInstance.adopt(petId, {from: account});
+        return bikeShareInstance.reserve(bikeId, {from: account});
       }).then(function(result) {
-        return App.markAdopted();
+        return App.markRented();
       }).catch(function(err) {
         console.log(err.message);
       });
