@@ -1,3 +1,4 @@
+
 App = {
   web3Provider: null,
   contracts: {},
@@ -21,49 +22,63 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('BikeShareContract.json', function(data) {
+    $.getJSON('BikeShare.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract.
       var BikeShareArtifact = data;
       App.contracts.BikeShare = TruffleContract(BikeShareArtifact);
-
-      // Set the provider for our contract.
-      App.contracts.BikeShare.setProvider(App.web3Provider);
-
-      // Use our contract to retieve and mark the adopted pets.
-      return App.getBalances();
     });
 
     return App.bindEvents();
   },
 
   bindEvents: function() {
-    $(document).on('click', '#transferButton', App.handleTransfer);
+    $(document).on('click', '#transferButton', App.handleRegister);
   },
 
-  handleTransfer: function(event) {
+  handleRegister: function(event) {
     event.preventDefault();
 
-    var bikeModel = parseInt($('#BikeModel').val());
     var ownerName = $('#OwnerName').val();
-
-    console.log('Transfer ' + bikeModel + ' TT to ' + ownerName);
-
-    var bikeShareInstance;
+    var bikeModel = $('#BikeModel').val();
+    var bikeSize = parseInt($('#BikeSize').val());
+    var rentRate = parseInt($('#RentRate').val());
 
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
         console.log(error);
       }
-
+      var bikeShareInstance;
       var account = accounts[0];
-
-      App.contracts.BikeShare.deployed().then(function(instance) {
+      // Set the provider for our contract.
+      App.contracts.BikeShare.setProvider(App.web3Provider);
+      // deploy contract
+      App.contracts.BikeShare.new(ownerName, bikeModel, bikeSize, rentRate, {from: account, gas: 4700388}).then(function(instance) {
         bikeShareInstance = instance;
-
-        return bikeShareInstance.transfer(ownerName, bikeModel, {from: account});
+        console.log(bikeShareInstance);
       }).then(function(result) {
-        alert('Transfer Successful!');
-        return App.getBalances();
+        alert('Registration Successful! Your Contract Address is: ' + bikeShareInstance.address);
+        console.log('Contract Address: ' + bikeShareInstance.address);
+        
+        // var dataObject = {
+        //       // "id": data.length,
+        //       "contractAddress": bikeShareInstance.address,
+        //       "name": ownerName,
+        //       "picture": "images/bike1.jpeg",
+        //       "model": bikeModel,
+        //       "size": bikeSize,
+        //       "rate": rentRate
+        // };
+
+        //  $.ajax({
+        //     url: "bikes.json",
+        //     type: 'PUT',    
+        //     data: JSON.stringify(dataObject),
+        //     dataType: 'json',
+        //     success: function(result) {
+        //         alert("success?");
+        //     }
+        // });
+        // return result.redirect('/index.html');
       }).catch(function(err) {
         console.log(err.message);
       });
@@ -88,14 +103,13 @@ App = {
         // return bikeShareInstance.balanceOf(account);
       }).then(function(result) {
         balance = result.c[0];
-
+        console.log(balance)
         $('#ETHBalance').text(balance);
       }).catch(function(err) {
         console.log(err.message);
       });
     });
   }
-
 };
 
 $(function() {

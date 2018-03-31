@@ -1,6 +1,6 @@
 pragma solidity ^0.4.21;
 
-contract BikeShareContract {
+contract BikeShare {
     event Unlock(uint _period, address _rider, uint _rentRate, uint _rentStart);
     event Lock(bool _remaining, uint _remainingAmount);
     
@@ -37,7 +37,7 @@ contract BikeShareContract {
             return (ownerName, bikeModel, bikeSize, rentRate, rentStart);
     }
 
-    function BikeShareContract(
+    function BikeShare(
         string _ownerName, 
         string _bikeModel, 
         uint _bikeSize, 
@@ -84,7 +84,7 @@ contract BikeShareContract {
             
             uint rentEnd = rentStart + rentPeriod;
             
-            if (msg.sender == rider && now > rentStart && now < rentEnd ) {
+            if (msg.sender == rider && now > rentStart && now < rentEnd) {
                 remainingAmount = (rentEnd - now) * rentRate;
                 rider.transfer(remainingAmount);
                 remaining = true;

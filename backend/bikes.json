@@ -62,5 +62,13 @@
     "model": 33,
     "size": "Golden Retriever",
     "rate": 2500
+  },
+  {
+    "id": 8,
+    "name": "Nichole",
+    "picture": "images/bike9.jpeg",
+    "model": 22,
+    "size": "French Bulldog",
+    "rate": 1300
   }
 ]
